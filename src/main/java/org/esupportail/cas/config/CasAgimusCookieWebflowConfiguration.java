@@ -3,7 +3,7 @@ package org.esupportail.cas.config;
 import org.apereo.cas.authentication.adaptive.AdaptiveAuthenticationPolicy;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.ticket.UniqueTicketIdGenerator;
-import org.apereo.cas.util.DefaultUniqueTicketIdGenerator;
+import org.apereo.cas.util.HostNameBasedUniqueTicketIdGenerator;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.resolver.CasDelegatingWebflowEventResolver;
 import org.apereo.cas.web.flow.resolver.CasWebflowEventResolver;
@@ -64,7 +64,7 @@ public class CasAgimusCookieWebflowConfiguration {
      
     @Autowired
     @Qualifier("agimusTokenTicketIdGenerator")
-    private UniqueTicketIdGenerator agimusTokenTicketIdGenerator;
+    private HostNameBasedUniqueTicketIdGenerator agimusTokenTicketIdGenerator;
 
     
     @Bean
@@ -75,10 +75,14 @@ public class CasAgimusCookieWebflowConfiguration {
     
     @Bean
     @RefreshScope
-    public UniqueTicketIdGenerator agimusTokenTicketIdGenerator() {
-        return new DefaultUniqueTicketIdGenerator();
+    public HostNameBasedUniqueTicketIdGenerator agimusTokenTicketIdGenerator() {
+        /*return new DefaultUniqueTicketIdGenerator();*/
+    	return new HostNameBasedUniqueTicketIdGenerator(
+    				agimusConfigurationProperties().getCookieValueMaxLength(),
+    				casProperties.getHost().getName()
+    			);
     }
-    
+
     @Bean
     public CasAgimusLogger agimusLogger() {
     	LOGGER.debug("CasAgimusCookieWebflowConfiguration::CasAgimusLogger : Create bean agimusLogger");    	

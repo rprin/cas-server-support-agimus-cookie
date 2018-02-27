@@ -6,14 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apereo.cas.authentication.Authentication;
 import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.authentication.adaptive.AdaptiveAuthenticationPolicy;
-import org.apereo.cas.ticket.UniqueTicketIdGenerator;
+import org.apereo.cas.util.HostNameBasedUniqueTicketIdGenerator;
 import org.apereo.cas.web.flow.actions.AbstractNonInteractiveCredentialsAction;
 import org.apereo.cas.web.flow.resolver.CasDelegatingWebflowEventResolver;
 import org.apereo.cas.web.flow.resolver.CasWebflowEventResolver;
 import org.apereo.cas.web.support.CookieRetrievingCookieGenerator;
 import org.apereo.cas.web.support.WebUtils;
 import org.esupportail.cas.config.CasAgimusConfigurationProperties;
-import org.esupportail.cas.config.CasAgimusCookieWebflowConfiguration;
 import org.esupportail.cas.util.CasAgimusLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,7 @@ public class AgimusCookieAction extends AbstractNonInteractiveCredentialsAction 
 
     @Autowired
     @Qualifier("agimusTokenTicketIdGenerator")
-    private UniqueTicketIdGenerator agimusTokenTicketIdGenerator;
+    private HostNameBasedUniqueTicketIdGenerator agimusTokenTicketIdGenerator;
 
     @Autowired
     @Qualifier("agimusLogger")
@@ -62,7 +61,7 @@ public class AgimusCookieAction extends AbstractNonInteractiveCredentialsAction 
             if(null == hasAlreadyCookie || "".equals(hasAlreadyCookie)) {
             	LOGGER.debug("AgimusCookieAction::constructCredentialsFromRequest : User have no Agimus cookie, we going to put new");
                 
-            	String agimusIdValue = agimusTokenTicketIdGenerator.getNewTicketId(agimusConfigurationProperties.getCookieValuePrefix());            	
+            	String agimusIdValue = agimusTokenTicketIdGenerator.getNewTicketId(agimusConfigurationProperties.getCookieValuePrefix());          	
                 agimusCookieGenerator.addCookie(response, agimusIdValue);
                             
                 final Authentication authentication = WebUtils.getAuthentication(requestContext);

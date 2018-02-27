@@ -48,6 +48,7 @@ Vous devez configurer dans cas-overlay-template\etc\cas\config\cas.properties le
 	cas.agimus.cookieName=AGIMUS
 	cas.agimus.cookieMaxAge=259200
 	cas.agimus.cookiePath=/
+	cas.agimus.cookieValueMaxLength=10
 	cas.agimus.cookieDomain=univ.fr
 	cas.agimus.cookieValuePrefix=TRACEAGIMUS
 	cas.agimus.traceFileSeparator=:
@@ -57,9 +58,13 @@ Sachant que :
  - cookieName : est le nom du cookie qui sera déposé sur le poste client
  - cookieMaxAge : délai de vie du cookie sur le poste client (3jours)
  - cookiePath : chemin d'où le cookie sera lisible
+ - cas.agimus.cookieValueMaxLength : longueur maximum de la valeur du cookie
  - cookieDomain : nom du domain d'où le cookie sera lisible (attention le domaine ne doit pas commencer par un .)
  - cookieValuePrefix : prefix utiliser pour générer la valeur du cookie
  - traceFileSeparator : séparateur utilisé pour la génération du fichier (entre la valeur du cookie et l'identifiant utilisateur)
+ 
+Le cookie déposé sera la forme : 
+	{cas.agimus.cookieName} = {cas.agimus.cookieValuePrefix}-XXXXXXXXXX-{cas.host.name} 
 
 ## Gestion des logs
 
