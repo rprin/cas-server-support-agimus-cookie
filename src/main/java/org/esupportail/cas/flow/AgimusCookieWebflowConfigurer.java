@@ -5,7 +5,7 @@ import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.flow.configurer.AbstractCasWebflowConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.ActionState;
 import org.springframework.webflow.engine.Flow;
@@ -22,7 +22,7 @@ public class AgimusCookieWebflowConfigurer extends AbstractCasWebflowConfigurer 
 	    
     public AgimusCookieWebflowConfigurer(final FlowBuilderServices flowBuilderServices, 
                                                 final FlowDefinitionRegistry loginFlowDefinitionRegistry,
-                                                final ApplicationContext applicationContext,
+                                                final ConfigurableApplicationContext applicationContext,
                                                 final CasConfigurationProperties casProperties) {
         super(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext, casProperties);
         LOGGER.debug("AgimusCookieWebflowConfigurer::AgimusCookieWebflowConfigurer : create bean AgimusCookieWebflowConfigurer");

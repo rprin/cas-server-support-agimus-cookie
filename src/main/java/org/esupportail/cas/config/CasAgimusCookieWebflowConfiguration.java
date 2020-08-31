@@ -2,13 +2,15 @@ package org.esupportail.cas.config;
 
 import org.apereo.cas.authentication.adaptive.AdaptiveAuthenticationPolicy;
 import org.apereo.cas.configuration.CasConfigurationProperties;
+import org.apereo.cas.configuration.model.support.cookie.CookieProperties;
 import org.apereo.cas.util.HostNameBasedUniqueTicketIdGenerator;
 import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlan;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.web.flow.resolver.CasDelegatingWebflowEventResolver;
 import org.apereo.cas.web.flow.resolver.CasWebflowEventResolver;
-import org.apereo.cas.web.support.CookieRetrievingCookieGenerator;
+import org.apereo.cas.web.support.CookieUtils;
+import org.apereo.cas.web.support.gen.CookieRetrievingCookieGenerator;
 import org.esupportail.cas.flow.AgimusCookieAction;
 import org.esupportail.cas.flow.AgimusCookieWebflowConfigurer;
 import org.esupportail.cas.util.CasAgimusLogger;
@@ -22,9 +24,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 import org.springframework.webflow.execution.Action;
@@ -53,7 +55,7 @@ public class CasAgimusCookieWebflowConfiguration implements CasWebflowExecutionP
 	private ObjectProvider<CasDelegatingWebflowEventResolver> initialAuthenticationAttemptWebflowEventResolver;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    private ConfigurableApplicationContext applicationContext;
 
     @Autowired
     private CasConfigurationProperties casProperties;
@@ -112,11 +114,15 @@ public class CasAgimusCookieWebflowConfiguration implements CasWebflowExecutionP
         LOGGER.debug("CasAgimusCookieWebflowConfiguration::agimusCookieGenerator : AgimusCookieValuePrefix = ["+ casAgimusConfigurationProperties.getCookieValuePrefix() +"]");
         LOGGER.debug("CasAgimusCookieWebflowConfiguration::agimusCookieGenerator : AgimusTraceFileSeparator = ["+ casAgimusConfigurationProperties.getTraceFileSeparator() +"]");
         
-    	return new AgimusCookieRetrievingCookieGenerator(casAgimusConfigurationProperties.getCookieName(), 
-    			casAgimusConfigurationProperties.getCookiePath(), 
-    			casAgimusConfigurationProperties.getCookieMaxAge(),
-    			casAgimusConfigurationProperties.getCookieDomain(),
-    			casAgimusConfigurationProperties.getCookieValuePrefix());
+        CookieProperties cookieProperties = new CookieProperties();
+    	cookieProperties.setName(casAgimusConfigurationProperties.getCookieName());
+    	cookieProperties.setPath(casAgimusConfigurationProperties.getCookiePath());
+    	cookieProperties.setMaxAge(casAgimusConfigurationProperties.getCookieMaxAge());
+    	cookieProperties.setDomain(casAgimusConfigurationProperties.getCookieDomain());
+    	cookieProperties.setHttpOnly(false);
+    	cookieProperties.setSecure(false);
+    	
+    	return new AgimusCookieRetrievingCookieGenerator(CookieUtils.buildCookieGenerationContext(cookieProperties));
     }
     
     @ConditionalOnMissingBean(name = "agimusCookieWebflowConfigurer")

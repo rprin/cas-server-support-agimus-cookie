@@ -1,6 +1,7 @@
 package org.esupportail.cas.web;
 
-import org.apereo.cas.web.support.CookieRetrievingCookieGenerator;
+import org.apereo.cas.web.cookie.CookieGenerationContext;
+import org.apereo.cas.web.support.gen.CookieRetrievingCookieGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +14,8 @@ import org.slf4j.LoggerFactory;
 public class AgimusCookieRetrievingCookieGenerator extends CookieRetrievingCookieGenerator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AgimusCookieRetrievingCookieGenerator.class);
 	   
-    public AgimusCookieRetrievingCookieGenerator(final String name, final String path,
-                                                  final int maxAge, final String domain,
-                                                  final String cookieValuePrefix) {
-        super(name, path, maxAge, false, domain, false);
+    public AgimusCookieRetrievingCookieGenerator(final CookieGenerationContext cookieGenerationContext) {
+        super(cookieGenerationContext);
         LOGGER.debug("AgimusCookieRetrievingCookieGenerator::AgimusCookieRetrievingCookieGenerator : create bean AgimusCookieRetrievingCookieGenerator");
     }
 }
