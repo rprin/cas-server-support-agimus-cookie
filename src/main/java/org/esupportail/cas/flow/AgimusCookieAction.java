@@ -78,6 +78,6 @@ public class AgimusCookieAction extends AbstractNonInteractiveCredentialsAction 
         } catch (final Exception e) {
             LOGGER.warn(e.getMessage(), e);
         }
-        return null;
+        return WebUtils.getCredential(requestContext);
     }
 }
