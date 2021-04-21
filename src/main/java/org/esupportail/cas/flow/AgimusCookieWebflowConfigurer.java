@@ -5,7 +5,7 @@ import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.flow.configurer.AbstractCasWebflowConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.ActionState;
 import org.springframework.webflow.engine.Flow;
@@ -22,7 +22,7 @@ public class AgimusCookieWebflowConfigurer extends AbstractCasWebflowConfigurer 
 	    
     public AgimusCookieWebflowConfigurer(final FlowBuilderServices flowBuilderServices, 
                                                 final FlowDefinitionRegistry loginFlowDefinitionRegistry,
-                                                final ApplicationContext applicationContext,
+                                                final ConfigurableApplicationContext applicationContext,
                                                 final CasConfigurationProperties casProperties) {
         super(flowBuilderServices, loginFlowDefinitionRegistry, applicationContext, casProperties);
         LOGGER.debug("AgimusCookieWebflowConfigurer::AgimusCookieWebflowConfigurer : create bean AgimusCookieWebflowConfigurer");
@@ -37,7 +37,7 @@ public class AgimusCookieWebflowConfigurer extends AbstractCasWebflowConfigurer 
         	LOGGER.debug("AgimusCookieWebflowConfigurer::doInitialize : Add agimusCookieAction in WebFlow");
         	
         	final ActionState actionState = getState(flow, CasWebflowConstants.STATE_ID_GENERATE_SERVICE_TICKET, ActionState.class);
-            actionState.getEntryActionList().add(createEvaluateAction("agimusCookieAction"));
+        	actionState.getEntryActionList().add(createEvaluateAction("agimusCookieAction"));
         }
     }
     

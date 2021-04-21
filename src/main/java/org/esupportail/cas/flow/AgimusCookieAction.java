@@ -10,8 +10,8 @@ import org.apereo.cas.util.HostNameBasedUniqueTicketIdGenerator;
 import org.apereo.cas.web.flow.actions.AbstractNonInteractiveCredentialsAction;
 import org.apereo.cas.web.flow.resolver.CasDelegatingWebflowEventResolver;
 import org.apereo.cas.web.flow.resolver.CasWebflowEventResolver;
-import org.apereo.cas.web.support.CookieRetrievingCookieGenerator;
 import org.apereo.cas.web.support.WebUtils;
+import org.apereo.cas.web.support.gen.CookieRetrievingCookieGenerator;
 import org.esupportail.cas.config.CasAgimusConfigurationProperties;
 import org.esupportail.cas.util.CasAgimusLogger;
 import org.slf4j.Logger;
@@ -28,8 +28,6 @@ import org.springframework.webflow.execution.RequestContext;
 public class AgimusCookieAction extends AbstractNonInteractiveCredentialsAction {
     private static final Logger LOGGER = LoggerFactory.getLogger(AgimusCookieAction.class);
     
-    @Autowired
-    @Qualifier("agimusConfigurationProperties")
     private CasAgimusConfigurationProperties agimusConfigurationProperties;
     
     @Autowired
@@ -46,8 +44,9 @@ public class AgimusCookieAction extends AbstractNonInteractiveCredentialsAction 
     
     public AgimusCookieAction(final CasDelegatingWebflowEventResolver initialAuthenticationAttemptWebflowEventResolver,
                                      final CasWebflowEventResolver serviceTicketRequestWebflowEventResolver,
-                                     final AdaptiveAuthenticationPolicy adaptiveAuthenticationPolicy) {    	
+                                     final AdaptiveAuthenticationPolicy adaptiveAuthenticationPolicy, CasAgimusConfigurationProperties casAgimusConfigurationProperties) {    	
     	super(initialAuthenticationAttemptWebflowEventResolver, serviceTicketRequestWebflowEventResolver, adaptiveAuthenticationPolicy);
+    	this.agimusConfigurationProperties = casAgimusConfigurationProperties;
     	LOGGER.debug("AgimusCookieAction::AgimusCookieAction : create bean AgimusCookieAction");
     }
 
@@ -79,6 +78,6 @@ public class AgimusCookieAction extends AbstractNonInteractiveCredentialsAction 
         } catch (final Exception e) {
             LOGGER.warn(e.getMessage(), e);
         }
-        return null;
+        return WebUtils.getCredential(requestContext);
     }
 }
