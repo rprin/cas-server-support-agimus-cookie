@@ -41,7 +41,9 @@ import org.springframework.webflow.execution.Action;
 @EnableConfigurationProperties(CasConfigurationProperties.class)
 public class CasAgimusCookieWebflowConfiguration implements CasWebflowExecutionPlanConfigurer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CasAgimusCookieWebflowConfiguration.class);
-   	
+	
+	private static final int WEBFLOW_CONFIGURER_ORDER = 1000;
+	
 	@Autowired
 	@Qualifier("adaptiveAuthenticationPolicy")
 	private ObjectProvider<AdaptiveAuthenticationPolicy> adaptiveAuthenticationPolicy;
@@ -80,7 +82,7 @@ public class CasAgimusCookieWebflowConfiguration implements CasWebflowExecutionP
         /*return new DefaultUniqueTicketIdGenerator();*/
     	return new HostNameBasedUniqueTicketIdGenerator(
     				casAgimusConfigurationProperties.getCookieValueMaxLength(),
-    				casProperties.getHost().getName()
+    				casProperties.getServer().getName()
     			);
     }
     
@@ -130,9 +132,11 @@ public class CasAgimusCookieWebflowConfiguration implements CasWebflowExecutionP
     @RefreshScope
     public CasWebflowConfigurer agimusCookieWebflowConfigurer() {
     	LOGGER.info("CasAgimusCookieWebflowConfiguration::agimusCookieWebflowConfigurer : configure Agimus WebFlow");    
-    	return new AgimusCookieWebflowConfigurer(flowBuilderServices,          
+    	AgimusCookieWebflowConfigurer w = new AgimusCookieWebflowConfigurer(flowBuilderServices,          
                 loginFlowDefinitionRegistry.getIfAvailable(),
                 applicationContext, casProperties);
+    	w.setOrder(WEBFLOW_CONFIGURER_ORDER);
+    	return w;
     }   
     
     @Override
