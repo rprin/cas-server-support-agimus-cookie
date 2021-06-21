@@ -1,16 +1,16 @@
 # cas-server-support-agimus-cookie
 ![Esup Portail](https://www.esup-portail.org/sites/esup-portail.org/files/logo-esup%2Baccroche_2.png "Esup Portail")
 
-cas-server-support-agimus-cookie est une extension du serveur CAS pour déposer un cookie de domaine lors d'une authentification. En parallèle cette extension va générer un fichier avec l'id de l'utilisateur authentifié et le valeur du cookie qui lui a été donné.
-Si le cookie est déjà présent sur le poste client un nouveau ne sera pas généré.
+cas-server-support-agimus-cookie est une extension du serveur CAS pour dÃ©poser un cookie de domaine lors d'une authentification. En parallÃ¨le cette extension va gÃ©nÃ©rer un fichier avec l'id de l'utilisateur authentifiÃ© et le valeur du cookie qui lui a Ã©tÃ© donnÃ©.
+Si le cookie est dÃ©jÃ  prÃ©sent sur le poste client un nouveau ne sera pas gÃ©nÃ©rÃ©.
 
 Le fichier produit est de la forme : 
 
 > USERID:AGIMUS-1-XXXXXXXXXXXXXXX
 
-## Compatibilité
+## CompatibilitÃ©
 
-Tester sur 
+TestÃ© sur 
 
  - CAS V6.4.0-RC5
 
@@ -27,19 +27,14 @@ Tester sur
 
 Ceci va avoir pour effet de compiler le projet et de le mettre dans votre repository local maven.
 
-## Intégration dans CAS
+## IntÃ©gration dans CAS
 
-Ajouter la dépendance dans pom.xml de cas-overlay-template (https://github.com/apereo/cas-overlay-template) : 
+Ajouter la dÃ©pendance dans build.gradle de cas-overlay-template (https://github.com/apereo/cas-overlay-template) : 
 
-    <dependencies>
+    dependencies {
       ...
-    	<dependency>
-		  <groupId>org.esupportail.cas</groupId>
-		  <artifactId>cas-server-support-agimus-cookie</artifactId>
-		  <version>${cas.version}</version>
-		</dependency>
-		...
-	</dependencies>
+      implementation "org.esupportail.cas:cas-server-support-agimus-cookie:${casServerVersion}"
+    }
 
 ## Configuration dans CAS
 
@@ -55,15 +50,15 @@ Vous devez configurer dans /etc/cas/config/agimus.properties les informations su
 	
 Sachant que :
  
- - cookieName : est le nom du cookie qui sera déposé sur le poste client
- - cookieMaxAge : délai de vie du cookie sur le poste client (3jours)
- - cookiePath : chemin d'où le cookie sera lisible
+ - cookieName : est le nom du cookie qui sera dÃ©posÃ© sur le poste client
+ - cookieMaxAge : dÃ©lai de vie du cookie sur le poste client (3jours)
+ - cookiePath : chemin d'oÃ¹ le cookie sera lisible
  - cookieValueMaxLength : longueur maximum de la valeur du cookie
- - cookieDomain : nom du domain d'où le cookie sera lisible (attention le domaine ne doit pas commencer par un .)
- - cookieValuePrefix : prefix utiliser pour générer la valeur du cookie
- - traceFileSeparator : séparateur utilisé pour la génération du fichier (entre la valeur du cookie et l'identifiant utilisateur)
+ - cookieDomain : nom du domain d'oÃ¹ le cookie sera lisible (attention le domaine ne doit pas commencer par un .)
+ - cookieValuePrefix : prefix utiliser pour gÃ©nÃ©rer la valeur du cookie
+ - traceFileSeparator : sÃ©parateur utilisÃ© pour la gÃ©nÃ©ration du fichier (entre la valeur du cookie et l'identifiant utilisateur)
  
-Le cookie déposé sera la forme : 
+Le cookie dÃ©posÃ© sera la forme : 
 	{agimus.cookieName} = {agimus.cookieValuePrefix}-XXXXXXXXXX-{cas.host.name} 
 
 ## Gestion des logs
@@ -92,4 +87,4 @@ Ajouter le logger dans /etc/cas/config/log4j2.xml
 		...
     </Loggers>
     
-Il suffit ensuite de lancer la compilation est le déploiement de CAS.
+Il suffit ensuite de lancer la compilation est le dÃ©ploiement de CAS.
