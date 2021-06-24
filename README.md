@@ -12,7 +12,7 @@ Le fichier produit est de la forme :
 
 Testé sur 
 
- - CAS V6.3.3
+ - CAS V6.4.0-RC5
 
 
 ## Installation
