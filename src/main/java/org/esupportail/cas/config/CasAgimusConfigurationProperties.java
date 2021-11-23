@@ -16,20 +16,20 @@ public class CasAgimusConfigurationProperties {
     // 3 days
     private int cookieMaxAge = 259200;
     private String cookiePath = "/";
-    private int cookieValueMaxLength = 30;
-    public int getCookieValueMaxLength() {
+    private long cookieValueMaxLength = 30;
+    public long getCookieValueMaxLength() {
 		return cookieValueMaxLength;
 	}
 
-	public void setCookieValueMaxLength(int cookieValueMaxLength) {
+	public void setCookieValueMaxLength(long cookieValueMaxLength) {
 		this.cookieValueMaxLength = cookieValueMaxLength;
 	}
 
 	private String cookieDomain = "univ.fr";
     private String cookieValuePrefix = "TRACEAGIMUS";
     private String traceFileSeparator = ":";
-    
-    
+
+
     public String getTraceFileSeparator() {
 		return traceFileSeparator;
 	}
@@ -68,7 +68,7 @@ public class CasAgimusConfigurationProperties {
 
 	public void setCookieValuePrefix(String cookieValuePrefix) {
 		this.cookieValuePrefix = cookieValuePrefix;
-	}    
+	}
 
     public String getCookieName() {
         return cookieName;
