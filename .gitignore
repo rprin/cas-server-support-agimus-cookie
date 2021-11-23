@@ -12,3 +12,4 @@ classes/
 .idea
 **/*.log
 .gradle/
+.vscode/settings.json
